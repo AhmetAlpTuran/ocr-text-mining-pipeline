@@ -68,7 +68,7 @@ For each PDF named `book.pdf`:
 The summary table has:
 - `keyword_root`
 - `count`
-- `category` (Çağ ayrımı, Gregoryan Miladı, Roma Rakamları, Olgusal Kavramlar, Bağlamsal Kavramlar)
+- `category` (Çağ ayrımı, Gregoryen Miladı, Roma Rakamları, Olgusal Kavramlar, Bağlamsal Kavramlar)
 
 ## Notes
 

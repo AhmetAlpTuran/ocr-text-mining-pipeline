@@ -13,3 +13,7 @@ Eğer hâlâ görünmüyorsa, PATH hiç uygulanmıyor demektir. O durumda şunu 
 $env:Path += ";C:\Program Files\Tesseract-OCR"
 tesseract --version
 Bunun sonucu gelirse PATH sorunu kesinleşir. Sonraki adımda birlikte kalıcı yaparız.
+
+ollama --version
+ollama serve
+ollama pull llama3.1

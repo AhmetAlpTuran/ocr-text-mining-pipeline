@@ -24,6 +24,7 @@ CONTEXTUAL_RULES = [
     {"term": "Reform", "rule_type": "non_european"},
     {"term": "Rönesans", "rule_type": "non_european"},
     {"term": "Şövalye", "rule_type": "non_european"},
+    {"term": "Şövalye Kültürü", "rule_type": "non_european"},
     {"term": "Siyahi", "rule_type": "derogatory"},
     {"term": "Zenci", "rule_type": "derogatory"},
     {"term": "Sarazen", "rule_type": "sarazen"},
@@ -89,7 +90,7 @@ SARAZEN_LABELING_MARKERS = ["tanımla", "adlandır", "isimlendir"]
 
 CATEGORY_ORDER = [
     "Çağ ayrımı",
-    "Gregoryan Miladı",
+    "Gregoryen Miladı",
     "Roma Rakamları",
     "Olgusal Kavramlar",
     "Bağlamsal Kavramlar",
@@ -240,8 +241,11 @@ def categorize_keyword_root(keyword_root: str, context_rule: str) -> str:
     if is_roman_numeral(keyword_root):
         return "Roma Rakamları"
     normalized = turkish_lower(keyword_root)
-    if re.search(r"\b(milat|miladi|gregoryan)\b", normalized):
-        return "Gregoryan Miladı"
+    cleaned = re.sub(r"[\s.]+", "", normalized)
+    if cleaned in {"mö", "ms"}:
+        return "Gregoryen Miladı"
+    if re.search(r"\b(milat|miladi|gregoryan|gregoryen)\b", normalized):
+        return "Gregoryen Miladı"
     if re.search(r"\b(çağ|çağı|devri|binyıl|milenyum)\b", normalized):
         return "Çağ ayrımı"
     return "Olgusal Kavramlar"
