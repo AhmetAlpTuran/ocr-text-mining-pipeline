@@ -1,0 +1,8 @@
+# Ignore all content inside subfolders (any depth)
+**/*
+
+# Keep root-level files tracked
+!/*
+
+# Keep root-level dotfiles tracked
+!/.*
