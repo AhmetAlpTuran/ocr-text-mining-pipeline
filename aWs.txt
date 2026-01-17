@@ -1,0 +1,15 @@
+Sorun PATH’e gerçekten yazılmaması veya yeni terminalin eski PATH’i kullanması. En temiz çözüm:
+
+Önce exe çalışıyor mu kontrol et:
+& "C:\Program Files\Tesseract-OCR\tesseract.exe" --version
+User PATH’e programatik olarak ekle:
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+[Environment]::SetEnvironmentVariable("Path", "$userPath;C:\Program Files\Tesseract-OCR", "User")
+Yeni PowerShell aç (VSCode kullanıyorsan VSCode’u tamamen kapatıp aç):
+where.exe tesseract
+tesseract --version
+Eğer hâlâ görünmüyorsa, PATH hiç uygulanmıyor demektir. O durumda şunu dene (mevcut oturum için geçici):
+
+$env:Path += ";C:\Program Files\Tesseract-OCR"
+tesseract --version
+Bunun sonucu gelirse PATH sorunu kesinleşir. Sonraki adımda birlikte kalıcı yaparız.
