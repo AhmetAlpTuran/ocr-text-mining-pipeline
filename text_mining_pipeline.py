@@ -297,17 +297,33 @@ def build_summary_docx(summary_df: pd.DataFrame, title: str) -> Document:
         document.add_paragraph("Veri bulunamadı.")
         return document
 
-    table = document.add_table(rows=1, cols=len(summary_df.columns))
+    table = document.add_table(rows=1, cols=2)
     table.style = "Table Grid"
 
     header_cells = table.rows[0].cells
-    for idx, col_name in enumerate(summary_df.columns):
-        header_cells[idx].text = str(col_name)
+    header_cells[0].text = "kelime/kategori"
+    header_cells[1].text = "sayı"
 
-    for row in summary_df.itertuples(index=False):
-        row_cells = table.add_row().cells
-        for idx, value in enumerate(row):
-            row_cells[idx].text = "" if pd.isna(value) else str(value)
+    categories_in_data = list(summary_df["category"].dropna().unique())
+    ordered_categories = [
+        name for name in CATEGORY_ORDER if name in categories_in_data
+    ]
+    for name in categories_in_data:
+        if name not in ordered_categories:
+            ordered_categories.append(name)
+
+    for category in ordered_categories:
+        category_row = table.add_row().cells
+        category_paragraph = category_row[0].paragraphs[0]
+        category_run = category_paragraph.add_run(str(category))
+        category_run.bold = True
+        category_row[1].text = ""
+
+        category_rows = summary_df[summary_df["category"] == category]
+        for row in category_rows.itertuples(index=False):
+            data_row = table.add_row().cells
+            data_row[0].text = "" if pd.isna(row.keyword_root) else str(row.keyword_root)
+            data_row[1].text = "" if pd.isna(row.count) else str(row.count)
 
     return document
 
